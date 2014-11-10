@@ -35,6 +35,7 @@ Embed Any Document WordPress plugin lets you upload and embed your documents eas
 * XML Paper Specification (xps)
 * Archive Files (zip, rar)
 
+<a href="http://dev.awsm.in/innovations/embed-any-document-plugin-demo/">Demo Link</a>
 
 <h4>Key Benefits of Embed Any Document WordPress plugin </h4>
 
