@@ -50,7 +50,7 @@ Embed Any Document WordPress plugin lets you upload and embed your documents eas
 
 For more information and instructions visit <a href="http://awsm.in/embed-any-document/" target="_blank">our website.</a>.
 
-This is an <a href=“http://awsm.in” target=“_blank”>AWSM</a> Project.
+This is an <a href="http://awsm.in" target=“_blank”>AWSM</a> Project.
 
 
 == Installation ==
