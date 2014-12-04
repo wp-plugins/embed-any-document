@@ -100,3 +100,6 @@ Great. Send it to ead@awsm.in. We will answer it as soon as we can.
 = V1.0.1 =
 * Removed unsupported file types.
 * Updated support tab.
+
+= V1.1 =
+* File Not Found fix
