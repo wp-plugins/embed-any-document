@@ -42,7 +42,7 @@
                     <div class="f-left">
                     <label><?php _e('Show Download Link','ead');?></label> 
                     <?php 
-                    $downoptions= array('alluser' => __('For all users',$this->text_domain),'logged' => __('For Logged-in users',$this->text_domain),'none' => __('None',$this->text_domain));
+                    $downoptions= array('alluser' => __('For all users',$this->text_domain),'logged' => __('For Logged-in users',$this->text_domain),'none' => __('No Download',$this->text_domain));
                     ead_selectbuilder('ead_download', $downoptions,esc_attr( get_option('ead_download')),'embed_download ead_usc'); 
                     ?> 
                     </div>
