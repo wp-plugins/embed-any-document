@@ -86,6 +86,8 @@ Great. Send it to ead@awsm.in. We will answer it as soon as we can.
 * Added option in settings to enable and disable media library insert.
 * Fixed: Editor permission issue.
 
+= V 1.1.1- 2014-12-8 =
+* Removed media insert override option.
 
 = V 1.0.1 - 2014-11-12 =
 * Removed unsupported file types.
@@ -94,14 +96,15 @@ Great. Send it to ead@awsm.in. We will answer it as soon as we can.
 = V 1.1 - 2014-11-12 =
 * File Not Found fix
 
-= V 1.1 - 2014-12-8 =
-* Removed media insert override option.
 
 == Upgrade Notice ==
+
+= V 1.1.1=
+* Removed media insert override option.
 
 = V 1.0.1 =
 * Removed unsupported file types.
 * Updated support tab.
 
-= V1.1 =
+= V 1.1 =
 * File Not Found fix
