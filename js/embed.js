@@ -1,70 +1,70 @@
 jQuery(document).ready(function ($) {
-	var $popup        =   $('#embed-popup'),
-		$wrap         =   $('#embed-popup-wrap'),
-		$embedurl     =   $('#awsm_url'),
-		$shortcode    =   $('#shortcode');
-		$message      =   $('#embed_message p');
+    var $popup        =   $('#embed-popup'),
+        $wrap         =   $('#embed-popup-wrap'),
+        $embedurl     =   $('#awsm_url'),
+        $shortcode    =   $('#shortcode');
+        $message      =   $('#embed_message p');
         $ActionPanel  =   $('.mceActionPanel');
         $container    =   $('.ead_container');
-	var fileurl="";
-	//Opens Embed popup
-	$('body').on('click', '.awsm-embed', function (e) {
+    var fileurl="";
+    //Opens Embed popup
+    $('body').on('click', '.awsm-embed', function (e) {
         ead_reset();
-		e.preventDefault();
-		$wrap.show();
-		window.embed_target = $(this).data('target');
-		$(this).magnificPopup({
-			type: 'inline',
-			alignTop: true,
-			callbacks: {
-				open: function () {
-					// Change z-index
-					$('body').addClass('mfp-shown');
-					// Save selection
-					mce_selection = (typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor != null && tinyMCE.activeEditor.hasOwnProperty('selection')) ? tinyMCE.activeEditor.selection.getContent({
-						format: "text"
-					}) : '';
-				},
-				close: function () {
-					// Remove narrow class
-					$popup.removeClass('generator-narrow');
-					// Clear selection
-					mce_selection = '';
-					// Change z-index
-					$('body').removeClass('mfp-shown');
-				}
-			} 
-		}).magnificPopup('open');
-	});	
-	//Update shortcode on change
- 	$( ".ead_usc" ).change(function() {
- 		updateshortcode();
-	});
-	$('.embedval').keyup(function(){
-		updateshortcode();
-	});
-	//Tabs Support
-	$('ul.tabs').delegate('li:not(.current)', 'click', function () {
+        e.preventDefault();
+        $wrap.show();
+        window.embed_target = $(this).data('target');
+        $(this).magnificPopup({
+            type: 'inline',
+            alignTop: true,
+            callbacks: {
+                open: function () {
+                    // Change z-index
+                    $('body').addClass('mfp-shown');
+                    // Save selection
+                    mce_selection = (typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor != null && tinyMCE.activeEditor.hasOwnProperty('selection')) ? tinyMCE.activeEditor.selection.getContent({
+                        format: "text"
+                    }) : '';
+                },
+                close: function () {
+                    // Remove narrow class
+                    $popup.removeClass('generator-narrow');
+                    // Clear selection
+                    mce_selection = '';
+                    // Change z-index
+                    $('body').removeClass('mfp-shown');
+                }
+            } 
+        }).magnificPopup('open');
+    }); 
+    //Update shortcode on change
+    $( ".ead_usc" ).change(function() {
+        updateshortcode();
+    });
+    $('.embedval').keyup(function(){
+        updateshortcode();
+    });
+    //Tabs Support
+    $('ul.tabs').delegate('li:not(.current)', 'click', function () {
             $(this).addClass('current').siblings().removeClass('current')
                 .parents('div.section').find('div.box').eq($(this).index()).fadeIn(150).siblings('div.box').hide();
     });
 
-	//Toggle advanced options
-	$("#adv_options").click(function(){
-	  $(".advanced_options").toggle();
-	});
+    //Toggle advanced options
+    $("#adv_options").click(function(){
+      $(".advanced_options").toggle();
+    });
     //Wordpress Uploader
     $('#upload_doc').click(open_media_window);
 
- 	//Insert Media window
- 	function open_media_window() {
- 		if (this.window === undefined) {
+    //Insert Media window
+    function open_media_window() {
+        if (this.window === undefined) {
         this.window = wp.media({
                 title: 'Embed Any Documet',
                 multiple: false,
                 library: {
-					type: emebeder.validtypes,
-				},
+                    type: emebeder.validtypes,
+                },
                 button: {text: 'Insert'}
             });
  
@@ -75,13 +75,13 @@ jQuery(document).ready(function ($) {
                 $shortcode.text(getshortcode(file.url));
                 uploaddetails(file);
             });
-   		} 
-	    this.window.open();
-	    return false;
+        } 
+        this.window.open();
+        return false;
     }
     //to getshortcode
     function getshortcode(url){
-    	var height=$('#ead_height').val(),width=$('#ead_width').val(),download=$('#ead_download').val(),provider=$('#ead_provider').val(),heightstr="",widthstr="",downloadstr="",providerstr="";
+        var height=$('#ead_height').val(),width=$('#ead_width').val(),download=$('#ead_download').val(),provider=$('#ead_provider').val(),heightstr="",widthstr="",downloadstr="",providerstr="";
         if(height!=emebeder.default_height) { heightstr = ' height="'+height+'"'; }
         if(width!=emebeder.default_width) { widthstr = ' width="'+width+'"'; }
         if(download!=emebeder.download) { downloadstr = ' download="'+download+'"'; }
@@ -92,81 +92,81 @@ jQuery(document).ready(function ($) {
     //Print uploaded file details
     function uploaddetails(file){
         $('#insert_doc').removeAttr('disabled');
-    	$('#ead_filename').html(file.filename);
+        $('#ead_filename').html(file.filename);
         if(file.filesizeHumanReadable){
          $('#ead_filesize').html(file.filesizeHumanReadable);   
         }else{
          $('#ead_filesize').html('&nbsp;');       
         }
-		$('.upload-success').fadeIn();
+        $('.upload-success').fadeIn();
         $container.hide();
     }
     //Add url
     $('#add_url').click(awsm_embded_url);
     function awsm_embded_url(){
-    	var checkurl = $embedurl.val();
-    	if (checkurl!='') {
-				 validateurl(checkurl);
-			} else {
+        var checkurl = $embedurl.val();
+        if (checkurl!='') {
+                 validateurl(checkurl);
+            } else {
                 $embedurl.addClass('urlerror');
-				updateshortcode();
-			}
-    	
+                updateshortcode();
+            }
+        
     }
     //Validate file url
     function validateurl(url){
         $('#embed_message').hide();
         $('#add_url').val(emebeder.verify);
-    	$.ajax({
+        $.ajax({
                 type: 'POST',
                 url: emebeder.ajaxurl,
-				dataType: 'json',
+                dataType: 'json',
                 data: {  action: 'validateurl',
-						 furl:url },
+                         furl:url },
                 success: function(data) {
-					if(data.status){
+                    if(data.status){
                         $embedurl.removeClass('urlerror');
-					  	fileurl =url;
-						updateshortcode();
-						uploaddetails(data.file);
-					}else{
-					  	showmsg(data.message); 
-					}  
-					$('#add_url').val(emebeder.addurl);   
+                        fileurl =url;
+                        updateshortcode();
+                        uploaddetails(data.file);
+                    }else{
+                        showmsg(data.message); 
+                    }  
+                    $('#add_url').val(emebeder.addurl);   
                 },
             });
     }
     //Show Message
     function showmsg(msg){
         $('#embed_message').fadeIn();
-    	$message.text(msg);
+        $message.text(msg);
     }
     //insert Shortcode
     $('#insert_doc').click(awsm_shortcode);
     function awsm_shortcode(){
-    	if(fileurl){
-    		wp.media.editor.insert($shortcode.text());
-    		$.magnificPopup.close();	
-    	}else{
-    		showmsg(emebeder.nocontent);
-    	}
-    	
+        if(fileurl){
+            wp.media.editor.insert($shortcode.text());
+            $.magnificPopup.close();    
+        }else{
+            showmsg(emebeder.nocontent);
+        }
+        
     }
     //Update ShortCode
     function updateshortcode(){
-    	if(fileurl){
-    		$shortcode.text(getshortcode(fileurl));
-    	}else{
-    		$shortcode.text('');
-    	}
+        if(fileurl){
+            $shortcode.text(getshortcode(fileurl));
+        }else{
+            $shortcode.text('');
+        }
     }
     // Close Embed dialog
-	$('#embed-popup').on('click', '.cancel_embed', function (e) {
-		// Close popup
-		$.magnificPopup.close();
-		// Prevent default action
-		e.preventDefault();
-	});
+    $('#embed-popup').on('click', '.cancel_embed', function (e) {
+        // Close popup
+        $.magnificPopup.close();
+        // Prevent default action
+        e.preventDefault();
+    });
     function ead_reset(){
         $container.show();
         $embedurl.val('');

@@ -81,23 +81,25 @@ Great. Send it to ead@awsm.in. We will answer it as soon as we can.
 
 == Changelog ==
 
-= V1.0.2 - 2014-11-24 =
+= V 1.0.2 - 2014-11-24 =
 * Added option in advanced option to choose viewer.
 * Added option in settings to enable and disable media library insert.
 * Fixed: Editor permission issue.
 
 
-= V1.0.1 - 2014-11-12 =
+= V 1.0.1 - 2014-11-12 =
 * Removed unsupported file types.
 * Updated support tab.
 
-= V1.1 - 2014-11-12 =
+= V 1.1 - 2014-11-12 =
 * File Not Found fix
 
+= V 1.1 - 2014-12-8 =
+* Removed media insert override option.
 
 == Upgrade Notice ==
 
-= V1.0.1 =
+= V 1.0.1 =
 * Removed unsupported file types.
 * Updated support tab.
 
