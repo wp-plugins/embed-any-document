@@ -25,8 +25,6 @@
 	//Additional Mime Types
 	'svg'						   =>  'image/svg+xml',
 	);
-	
 	$extensions['all']		=	array('.css','.js','.pdf','.ai','.tif','.tiff','.doc','.txt','.asc','.c','.cc','.h','.pot','.pps','.ppt','.xla','.xls','.xlt','.xlw','.docx','.dotx','.dotm','.xlsx','.xlsm','.pptx','.pages','.svg');
-	// Microsoft Supported extensions
 	$extensions['ms'] 		=	array('.doc','.pot','.pps','.ppt','.xla','.xls','.xlt','.xlw','.docx','.dotx','.dotm','.xlsx','.xlsm','.pptx');
 ?>	

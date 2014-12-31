@@ -3,7 +3,7 @@
   Plugin Name: Embed Any Document
   Plugin URI: http://awsm.in/embed-any-documents
   Description: Embed Any Document WordPress plugin lets you upload and embed your documents easily in your WordPress website without any additional browser plugins like Flash or Acrobat reader. The plugin lets you choose between Google Docs Viewer and Microsoft Office Online to display your documents. 
-  Version: 1.1.1
+  Version: 2.0
   Author: Awsm Innovations
   Author URI: http://awsm.in
   License: GPL V3
@@ -39,7 +39,7 @@ class Awsm_embed {
 		$this->plugin_base  	=	dirname( plugin_basename( __FILE__ ) );
 		$this->plugin_file  	=	__FILE__  ;
 		$this->settings_slug	=	'ead-settings';
-		$this->plugin_version	=	'1.1.1';
+		$this->plugin_version	=	'2.0';
 
 		load_plugin_textdomain($this->text_domain, false,$this->plugin_base . '/language' );
 
@@ -122,12 +122,14 @@ class Awsm_embed {
 		wp_register_script( 'magnific-popup', plugins_url( 'js/magnific-popup.js', $this->plugin_file ), array( 'jquery' ), '0.9.9', true );
 		wp_register_script( 'embed', plugins_url( 'js/embed.js', $this->plugin_file ), array( 'jquery' ),$this->plugin_version, true );
 		wp_localize_script('embed','emebeder', array(
-				'default_height'	=>	get_option('ead_height', '500px' ),
-				'default_width' 	=>  get_option('ead_width', '100%' ),
-				'download' 			=>  get_option('ead_download', 'none' ),
-				'provider' 			=>  get_option('ead_provider', 'google' ),
+				'height' 			=> 	get_option('ead_height', '500px'),
+        		'width' 			=> 	get_option('ead_width', '100%'), 
+        		'download' 			=> 	get_option('ead_download', 'none'), 
+        		'provider' 			=> 	get_option('ead_provider', 'google'), 
 				'ajaxurl' 			=> 	admin_url( 'admin-ajax.php' ),
 				'validtypes' 		=> 	ead_validembedtypes(),
+				'msextension' 		=> 	ead_validextensions('ms'), 
+        		'drextension'		=> 	ead_validextensions('all'),
 				'nocontent'			=> 	__('Nothing to insert', $this->text_domain),
 				'addurl'			=> 	__('Add URL', $this->text_domain),
 				'verify'			=> 	__('Verifying...', $this->text_domain),
@@ -140,11 +142,72 @@ class Awsm_embed {
 	/**
      * Shortcode Functionality
      */
-	function embed_shortcode( $atts){
-		$embedcode 		=	"";
-		$embedcode 		=	ead_getprovider($atts);
-		return $embedcode;
-	}
+    function embed_shortcode($atts) {
+        $embed 				= 		"";
+        $durl 				= 		"";
+        $default_width 		= 		ead_sanitize_dims(get_option('ead_width', '100%'));
+        $default_height 	= 		ead_sanitize_dims(get_option('ead_height', '500px'));
+        $default_provider 	= 		get_option('ead_provider', 'google');
+        $default_download 	= 		get_option('ead_download', 'none');
+        $show = false;
+        extract(shortcode_atts(array('url' 		=> '',
+        							 'drive' 	=> '', 
+        							 'width' 	=> $default_width,
+        							 'height' 	=> $default_height, 
+        							 'language' => 'en', 
+        							 'viewer' 	=> $default_provider, 
+        							 'download' => $default_download), $atts));
+	    if(isset($atts['provider']))	
+	    	$viewer		=	$atts['provider'];
+	    if(!isset($atts['provider']) AND !isset($atts['viewer']))
+	    	$viewer		= 	'google';
+        if ($url):
+            $filedata = wp_remote_head($url);
+            $durl = '';
+            $privatefile = '';
+            if (ead_allowdownload($viewer)) if ($download == 'alluser' or $download == 'all') {
+                $show = true;
+            } elseif ($download == 'logged' AND is_user_logged_in()) {
+                $show = true;
+            }
+            if ($show) {
+                $filesize = 0;
+                $url = esc_url($url, array('http', 'https'));
+                
+                if (isset($filedata['headers']['content-length'])) {
+                    $filesize = ead_human_filesize($filedata['headers']['content-length']);
+                } else {
+                    $filesize = 0;
+                }
+                $fileHtml = '';
+                if ($filesize) $fileHtml = ' [' . $filesize . ']';
+                $durl = '<p class="embed_download"><a href="' . $url . '" download >' . __('Download', 'ead') . $fileHtml . ' </a></p>';
+            }
+            
+            $url = esc_url($url, array('http', 'https'));
+            $providerList = array('google', 'microsoft');
+            if (!in_array($viewer, $providerList)) $viewer = 'google';
+            switch ($viewer) {
+                case 'google':
+                    $embedsrc = '//docs.google.com/viewer?url=%1$s&embedded=true&hl=%2$s';
+                    $iframe = sprintf($embedsrc, urlencode($url), esc_attr($language));
+                    break;
+
+                case 'microsoft':
+                    $embedsrc = '//view.officeapps.live.com/op/embed.aspx?src=%1$s';
+                    $iframe = sprintf($embedsrc, urlencode($url));
+                    break;
+            }
+            $style = 'style="width:%1$s; height:%2$s; border: none;"';
+            $stylelink = sprintf($style, ead_sanitize_dims($width), ead_sanitize_dims($height));
+            $iframe = '<iframe src="' . $iframe . '" ' . $stylelink . '></iframe>';
+            $show = false;
+            $embed = '<div class="ead-document">' . $iframe . $privatefile . $durl . '</div>';
+        else:
+            $embed = __('No Url Found', 'ead');
+        endif;
+        return $embed;
+    }
  
 	/**
      * Admin menu setup
@@ -165,7 +228,7 @@ class Awsm_embed {
     function register_eadsettings() {
 	    register_setting( 'ead-settings-group', 'ead_width' ,'ead_sanitize_dims');
 	    register_setting( 'ead-settings-group', 'ead_height','ead_sanitize_dims' );
-	    register_setting( 'ead-settings-group', 'ead_provider','ead_sanitize_provider' );
+	    register_setting( 'ead-settings-group', 'ead_provider' );
 	    register_setting( 'ead-settings-group', 'ead_download' );
 	    register_setting( 'ead-settings-group', 'ead_mediainsert' );
 	}
@@ -209,6 +272,16 @@ class Awsm_embed {
             'ai'		=>		'application/postscript',
 		));
 	}
+	/**
+     * To get Overlay link
+     */
+    function providerlink($keys, $id, $provider) {
+        $link = 'http://goo.gl/wJTQlc';
+        $id = "";
+        $configure = '<span class="overlay"><strong>' . __('Buy Pro Version', $this->text_domain) . '</strong><i></i></span>';
+        $target = 'target="_blank"';
+        echo '<a href="' . $link . '" id="' . $id . '" ' . $target . '><span><img src="' . $this->plugin_url . 'images/icon-' . strtolower($provider) . '.png" alt="Add From ' . $provider . '" />' . __('Add from ' . $provider, $this->text_domain) . $configure . '</span></a>';
+    }
 	/**
      * To initialize default options
     */

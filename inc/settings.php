@@ -2,8 +2,9 @@
 <div class="wrap">
     <h2 class="ead-title"><?php _e('Embed Any Document by AWSM.in',$this->text_domain);?></h2>
     <h2 class="nav-tab-wrapper">
-            <a class="nav-tab nav-tab-active" href="#" data-tab="general"><?php _e( 'General Settings', $this->text_domain); ?></a>
-            <a class="nav-tab " href="#" data-tab="support"><?php _e( 'Support', $this->text_domain); ?></a>
+            <a class="ead-tabs nav-tab nav-tab-active" href="#" data-tab="general"><?php _e( 'General Settings', $this->text_domain); ?></a>
+            <a class="ead-tabs nav-tab " href="#" data-tab="support"><?php _e( 'Support', $this->text_domain); ?></a>
+            <a class="nav-tab " href="http://goo.gl/wJTQlc" target="_blank"><?php _e( 'Get Plus Version', $this->text_domain); ?></a>
         </h2>
     <div class="ead-left-wrap">
         
@@ -11,42 +12,6 @@
             <form method="post" action="options.php">
                 <?php settings_fields( 'ead-settings-group' ); ?>
                 <table class="form-table">
-                    <tr valign="top">
-                    <th scope="row"><?php _e('Embed Using',$this->text_domain);?></th>
-                    <td>
-                       <?php 
-                        $providers= array('google' => __('Google Docs Viewer',$this->text_domain),'microsoft' => __('Microsoft Office Online',$this->text_domain));
-                        ead_selectbuilder('ead_provider', $providers,esc_attr( get_option('ead_provider','google'))); 
-                        ?> 
-                        <div class="ead_supported">
-                        <span><?php _e('Supported file formats',$this->text_domain);?></span>
-                        <div class="supportedlist hidden" id="ead_google">
-                            <ul>
-                                <li><span class="ead-check"></span>Microsoft Word (docx, docm, dotm, dotx)</li>
-                                <li><span class="ead-check"></span>Microsoft Excel (xlsx, xlsb, xls, xlsm)</li>
-                                <li><span class="ead-check"></span>Microsoft PowerPoint (pptx, ppsx, ppt, pps, pptm, potm, ppam, potx, ppsm)</li>
-                                <li><span class="ead-check"></span>Adobe Portable Document Format (pdf)</li>
-                                <li><span class="ead-check"></span>Text files (txt)</li>
-                                <li><span class="ead-check"></span>TIFF Images (tif, tiff)</li>
-                                <li><span class="ead-check"></span>Adobe Illustrator (ai)</li>
-                                <li><span class="ead-check"></span>Scalable Vector Graphics (svg)</li> 
-                            </ul>
-                        </div>
-                        <div class="supportedlist hidden" id="ead_microsoft">
-                            <ul>
-                                <li><span class="ead-check"></span>Microsoft Word (docx, docm, dotm, dotx)</li>
-                                <li><span class="ead-check"></span>Microsoft Excel (xlsx, xlsb, xls, xlsm)</li>
-                                <li><span class="ead-check"></span>Microsoft PowerPoint (pptx, ppsx, ppt, pps, pptm, potm, ppam, potx, ppsm)</li>
-                                <li><span class="ead-close"></span>Adobe Portable Document Format (pdf)</li>
-                                <li><span class="ead-close"></span>Text files (txt)</li>
-                                <li><span class="ead-close"></span>TIFF Images (tif, tiff)</li>
-                                <li><span class="ead-close"></span>Adobe Illustrator (ai)</li>
-                                <li><span class="ead-close"></span>Scalable Vector Graphics (svg)</li> 
-                            </ul>
-                        </div>
-                        </div>
-                    </td>
-                    </tr>
                     <tr valign="top">
                         <th scope="row"><?php _e('Default Size', $this->text_domain); ?></th>
                         <td> 
@@ -111,6 +76,8 @@
         </div><!-- #support-->
     </div><!-- .ead-left-wrap -->
     <div class="ead-right-wrap">
+        <a href="http://goo.gl/wJTQlc" target="_blank" title="Embed Any Document Plus"><img src="http://awsm.in/innovations/ead/ead-plus-banner.png" alt="AWSM!"></a>
+        <div class="ead-right-inner">
         <a href="http://awsm.in" target="_blank" title="AWSM Innovations"><img src="http://awsm.in/innovations/ead/logo.png" alt="AWSM!"></a>
     <div class="author-info">
         This plugin is developed <br/>by <a href="http://awsm.in" target="_blank" title="AWSM Innovations">AWSM Innovations.</a>
@@ -121,24 +88,6 @@
         <li><a href="https://github.com/awsmin" target="_blank" title="AWSM Innovations"><span class="awsm-icon awsm-icon-github">Github</span></a></li>
         <li><a href="https://www.behance.net/awsmin" target="_blank" title="AWSM Innovations"><span class="awsm-icon awsm-icon-behance">Behance</span></a></li>
     </ul>
-    <div class="paypal">
-    <p>Liked the plugin? You can support our Open Source projects with a donation</p>
-
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-    <input type="hidden" name="cmd" value="_xclick">
-    <input type="hidden" name="business" value="pay@fidiz.com">
-    <input type="hidden" name="lc" value="IN">
-    <input type="hidden" name="item_name" value="Donation For Embed Any Document">
-    <input type="hidden" name="currency_code" value="USD">
-    <input type="hidden" name="button_subtype" value="services">
-    <input type="hidden" name="no_note" value="0">
-    <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest">
-    <span class="ead_doller">$</span><input type="text" name="amount" value="10.00" class="small">
-    <input type='hidden' name='cancel_return' value='<?php echo admin_url('options-general.php?page='.$this->settings_slug);?>'>
-    <input type='hidden' name='return' value='http://awsm.in/paypal/thankyou'>
-    <input type="image" src="<?php echo $this->plugin_url . 'images/donate.gif';?>" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
-    <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
-    </form>
     </div>
     </div><!-- .ead-right-wrap -->
     <div class="clear"></div>
@@ -146,9 +95,9 @@
 <script type="text/javascript">
 jQuery(document).ready(function ($) {
 
-    jQuery( ".nav-tab" ).click(function(event) {
+    jQuery( ".ead-tabs" ).click(function(event) {
         event.preventDefault();
-        $('.nav-tab').removeClass('nav-tab-active');
+        $('.ead-tabs').removeClass('nav-tab-active');
         $(this).addClass('nav-tab-active');
         var tab = '#'+ $(this).data('tab');
         $(".tabs").hide();
