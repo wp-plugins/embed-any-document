@@ -85,7 +85,6 @@ function ead_sanitize_provider( $provider ) {
  * @return  string Download link 
  */
 function ead_validateurl($url){
-    $types  =   ead_validmimeTypes();
     $url    =   esc_url( $url, array( 'http', 'https' ));
     $remote =   wp_remote_head($url);
     $json['status']  =  false;

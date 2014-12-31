@@ -61,7 +61,7 @@
                     <textarea name="shortcode" style="width:100%" id="shortcode" readonly="readonly"></textarea>
                 </li>            
                 </ul>
-            </div>
+            </div> 
             </div>
        
         <div class="mceActionPanel">
