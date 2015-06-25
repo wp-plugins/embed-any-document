@@ -1,11 +1,11 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?> 
 <div id="embed-popup-wrap">
     <div id="embed-popup">
-        <button title="Close (Esc)" type="button" class="mfp-close">×</button>
-        <div id="popup-header">
+        <button title="Close" type="button" class="mfp-close">×</button>
+        <div id="popup-header" class="ead-popup-header">
         <h1><?php _e('Add Document','ead');?></h1>
         </div>
-        <div class="section">
+        <div class="ead-section">
             <div id="embed_message" class="awsm-error" style="display:none;"><p></p></div>
             <div class="ead_container">
             <form action="" onSubmit="return false" method="post" enctype="multipart/form-data" id="Docuploader">
@@ -18,10 +18,10 @@
             </ul>
             <div class="box addurl_box">
              <label for="awsm_url"><?php _e('Enter document URL','ead');?></label>
-                <input name="awsm_url" type="text" class="opt dwl input-group-text" id="awsm_url"/>
+                <input name="awsm_url" type="text" class="opt dwl input-group-text" placeholder="Eg: http://www.yoursite.com/file.pdf" id="awsm_url"/>
                 <input type="button"  value="Add URL" class="ead-btn button-primary input-group-btn" id="add_url"/>  
                 <div class="clear"></div>
-                <a href="#" class="go-back">back</a> 
+                <a href="#" class="go-back">&larr; back</a> 
             </div>        
             </form>
             </div><!--ead_container-->
@@ -31,11 +31,10 @@
                     <p id="ead_filename"></p>
                     <span id="ead_filesize"></span>
                 </div>
-                <!-- <a class="ead-btn button" id="adv_options"><?php _e('Advanced Options','ead');?></a> -->
                 <div class="clear"></div>
                 </div>
                 <div class="advanced_options">
-                    <h3>Advanced Options  <span>(Leave blank for default settings)</span></h3>
+                    <h3><?php _e('Advanced Options','ead');?></span></h3>
                 <ul class="option-fields">
                     <li>
                         <div class="f-left"><label>Width</label> <input type="text" name="width"  class="embedval input-small" id="ead_width" value="<?php echo get_option('ead_width', '100%' );?>"></div>
@@ -71,8 +70,8 @@
                 </ul>
             </div>
         </div>
-       
-        <div class="mceActionPanel">
+       </div> 
+        <div class="mceActionPanel ead-action-panel">
         <div style="float: right">
             <input type="button" id="insert_doc" name="insert" data-txt="<?php _e('Insert', 'ead'); ?>" data-loading="<?php _e('Loading...', 'ead'); ?>" class="ead-btn button button-primary button-medium" value="<?php _e('Insert', 'ead'); ?>" disabled/>
         </div>
@@ -82,6 +81,6 @@
         </div>
         <div class="clear"></div>
         </div>
-    </div>  
+     
     </div>
 </div> 

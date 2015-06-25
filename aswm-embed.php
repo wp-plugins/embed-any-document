@@ -3,7 +3,7 @@
   Plugin Name: Embed Any Document
   Plugin URI: http://awsm.in/embed-any-documents
   Description: Embed Any Document WordPress plugin lets you upload and embed your documents easily in your WordPress website without any additional browser plugins like Flash or Acrobat reader. The plugin lets you choose between Google Docs Viewer and Microsoft Office Online to display your documents. 
-  Version: 2.1
+  Version: 2.2
   Author: Awsm Innovations
   Author URI: http://awsm.in
   License: GPL V3
@@ -39,7 +39,7 @@ class Awsm_embed {
 		$this->plugin_base  	=	dirname( plugin_basename( __FILE__ ) );
 		$this->plugin_file  	=	__FILE__  ;
 		$this->settings_slug	=	'ead-settings';
-		$this->plugin_version	=	'2.1';
+		$this->plugin_version	=	'2.2';
 
 		load_plugin_textdomain($this->text_domain, false,$this->plugin_base . '/language' );
 
@@ -111,15 +111,14 @@ class Awsm_embed {
 	 * Embed Form popup
 	 */ 
 	function embedpopup(){
+		add_thickbox();
 		include($this->plugin_path.'inc/popup.php');
 	}
 	/**
      * Register admin scripts
      */
 	function embed_helper(){
-		wp_register_style( 'magnific-popup', plugins_url( 'css/magnific-popup.css', $this->plugin_file ), false, '0.9.9', 'all' );
 		wp_register_style( 'embed-css', plugins_url( 'css/embed.css', $this->plugin_file ), false, $this->plugin_version, 'all' );
-		wp_register_script( 'magnific-popup', plugins_url( 'js/magnific-popup.js', $this->plugin_file ), array( 'jquery' ), '0.9.9', true );
 		wp_register_script( 'embed', plugins_url( 'js/embed.js', $this->plugin_file ), array( 'jquery' ),$this->plugin_version, true );
 		wp_localize_script('embed','emebeder', array(
 				'height' 			=> 	get_option('ead_height', '500px'),
@@ -131,11 +130,10 @@ class Awsm_embed {
 				'msextension' 		=> 	ead_validextensions('ms'), 
         		'drextension'		=> 	ead_validextensions('all'),
 				'nocontent'			=> 	__('Nothing to insert', $this->text_domain),
+				'invalidurl'		=> 	__('Invalid URL', $this->text_domain),
 				'addurl'			=> 	__('Add URL', $this->text_domain),
 				'verify'			=> 	__('Verifying...', $this->text_domain),
 			) );
-		wp_enqueue_style('magnific-popup');
-		wp_enqueue_script( 'magnific-popup' );
 		wp_enqueue_style('embed-css');
 		wp_enqueue_script( 'embed' );
 	}
